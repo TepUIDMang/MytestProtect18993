@@ -3,7 +3,7 @@ name: Daily Website Check
 on:
   schedule:
     - cron: '0 20 * * *' # 每天美国时间晚上8点 (UTC-8) 运行
-
+  workflow_dispatch: 
 jobs:
   check_websites:
     runs-on: ubuntu-latest
