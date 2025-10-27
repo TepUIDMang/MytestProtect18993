@@ -1,0 +1,57 @@
+name: Daily Website Check
+
+on:
+  schedule:
+    - cron: '0 20 * * *' # 每天美国时间晚上8点 (UTC-8) 运行
+
+jobs:
+  check_websites:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. 设置Python环境
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      # 3. 安装所需的Python库
+      - name: Install required packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # 4. 创建一个Python脚本，进行网站访问并输出结果
+      - name: Run website check
+        run: |
+          echo 'import requests' > check_websites.py
+          echo 'import datetime' >> check_websites.py
+          echo 'websites = [' >> check_websites.py
+          echo '    "https://www.youtube.com", "https://ipinfo.io", "https://www.google.com", "https://www.microsoft.com", "https://www.pm.com"]' >> check_websites.py
+          echo 'user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"' >> check_websites.py
+          echo 'for site in websites:' >> check_websites.py
+          echo '    domain = site.split("//")[-1].split("/")[0]' >> check_websites.py
+          echo '    try:' >> check_websites.py
+          echo '        response = requests.get(site, headers={"User-Agent": user_agent}, verify=False)' >> check_websites.py
+          echo '        result = f"{domain} responded with status code {response.status_code}"' >> check_websites.py
+          echo '    except Exception as e:' >> check_websites.py
+          echo '        result = f"{domain} failed with error {e}"' >> check_websites.py
+          echo '    with open(f"{domain}.txt", "w") as f:' >> check_websites.py
+          echo '        f.write(result)' >> check_websites.py
+          echo 'current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")' >> check_websites.py
+          echo 'with open("cu_time.txt", "w") as f:' >> check_websites.py
+          echo '    f.write(f"Current time: {current_time}")' >> check_websites.py
+          python check_websites.py
+
+      # 5. 提交并更新GitHub项目
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git add *.txt
+          git commit -m "Update website check results and current time"
+          git push
