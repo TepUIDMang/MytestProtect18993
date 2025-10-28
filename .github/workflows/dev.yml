@@ -40,10 +40,10 @@ jobs:
           echo '        result = f"{domain} responded with status code {response.status_code}"' >> check_websites.py
           echo '    except Exception as e:' >> check_websites.py
           echo '        result = f"{domain} failed with error {e}"' >> check_websites.py
-          echo '    with open(f"{domain}.txt", "w") as f:' >> check_websites.py
+          echo '    with open(f"{domain}.txt", "w+") as f:' >> check_websites.py
           echo '        f.write(result)' >> check_websites.py
           echo 'current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")' >> check_websites.py
-          echo 'with open("cu_time.txt", "w") as f:' >> check_websites.py
+          echo 'with open("cu_time.txt", "w+") as f:' >> check_websites.py
           echo '    f.write(f"Current time: {current_time}")' >> check_websites.py
           python check_websites.py
 
