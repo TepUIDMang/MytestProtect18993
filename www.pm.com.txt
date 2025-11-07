@@ -1,1 +1,1 @@
-www.pm.com failed with error HTTPSConnectionPool(host='www.pm.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fc4d64e1090>: Failed to resolve 'www.pm.com' ([Errno -2] Name or service not known)"))
+www.pm.com failed with error HTTPSConnectionPool(host='www.pm.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fcdd1065090>: Failed to resolve 'www.pm.com' ([Errno -2] Name or service not known)"))
